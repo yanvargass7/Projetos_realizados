@@ -10,7 +10,13 @@
 
 <h:body>
 
-	<h:form id="formPessoa">
+	<h:form style=" padding-bottom:25px;">
+		<h:commandLink value="Administração" action="primeirapagina" style="margin-left:1cm;"/>
+		<h:commandLink value="Lançamentos" action="lancamento" style="margin-left:1cm;"/>
+		<h:commandLink value="Trocar Usuário" action="index" style="margin-left:1cm;"/>
+	</h:form>
+
+	<h:form id="formPessoa" rendered="#{pessoaBean.permiteAcesso('ADMINISTRADOR')}">
 	
 	<h:panelGrid columns="2">
 	<f:facet name="header">
@@ -18,7 +24,7 @@
 	</f:facet>
 	
 			<h:outputLabel value="Id:"/>
-			<h:inputText value="#{pessoaBean.pessoa.id}" readonly="true"/>
+			<h:inputText value="#{pessoaBean.pessoa.id}"/>
 			
 			
 			<h:outputLabel value="Nome:"/>
@@ -66,58 +72,16 @@
 			
 			<h:outputLabel/>
 			<h:panelGroup >
-				<h:commandButton value="Salvar" action="#{pessoaBean.salvar}" image="resources/img/salvar.png" title="Salvar"/>
+				<h:commandButton value="Salvar" action="#{pessoaBean.salvar}" image="resources/img/salvar.png" title="Salvar"  />
 				<h:commandButton value="Novo" action="#{pessoaBean.novo}" image="resources/img/new_add_user_16734.png" title="Novo" />
-				<h:commandButton value="Excluir" action="#{pessoaBean.remove}" image="resources/img/excluir.png" title="Remover"/>
+				<h:commandButton value="Excluir" action="#{pessoaBean.remove}" image="resources/img/excluir.png" title="Remover" rendered="#{pessoaBean.permiteAcesso('ADMINISTRADOR')}"/>
 				<h:commandButton value="Limpar" type="reset" image="resources/img/limpar.png" title="Limpar"/>
 			</h:panelGroup>
 	</h:panelGrid>
 	
 	
 	
-	<h:dataTable value="#{pessoaBean.pessoas}" var="pessoa" border="3" cellpadding="6">
 	
-	<f:facet name="header">
-	Lista de pessoas cadastradas
-	</f:facet>
-	
-	
-			<h:column>
-				<f:facet name="header">ID</f:facet>
-				<h:outputText value="#{pessoa.id}"/>
-			</h:column>
-			
-			<h:column>
-				<f:facet name="header">Nome</f:facet>
-				<h:outputText value="#{pessoa.nome}"/>
-			</h:column>
-			
-			<h:column>
-				<f:facet name="header">Sobrenome</f:facet>
-				<h:outputText value="#{pessoa.sobrenome}"/>
-			</h:column>
-			
-			<h:column>
-				<f:facet name="header">Editar</f:facet>	
-				<h:commandLink title="Editar">
-				<f:setPropertyActionListener value="#{pessoa}" target="#{pessoaBean.pessoa}"/>
-				<h:graphicImage value="resources/img/icon_editar.png"/>
-				</h:commandLink>
-			</h:column>
-			
-			<h:column>
-				<f:facet name="header">Remover</f:facet>	
-				<h:outputLabel value="  "/>
-				<h:commandLink action="#{pessoaBean.remove}" title="Remover">
-				<f:setPropertyActionListener value="#{pessoa}" target="#{pessoaBean.pessoa}"/>
-				<h:graphicImage value="resources/img/icon2_remover.png"/>
-				</h:commandLink>
-			</h:column>
-			
-			
-			
-			
-	</h:dataTable>
 	</h:form>
 
 </h:body>
