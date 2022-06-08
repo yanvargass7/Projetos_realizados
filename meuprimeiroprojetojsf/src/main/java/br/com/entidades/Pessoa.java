@@ -23,6 +23,7 @@ public class Pessoa implements Serializable {
 	private String sobrenome;
 	private Integer idade;
 	private String sexo;
+	private String nivelprogramador;
 	private String login;
 	private String senha;
 	private String perfil;
@@ -41,6 +42,14 @@ public class Pessoa implements Serializable {
 	}
 	
 	//---------------------
+	
+	public void setNivelprogramador(String nivelprogramador) {
+		this.nivelprogramador = nivelprogramador;
+	}
+	public String getNivelprogramador() {
+		return nivelprogramador;
+	}
+	
 	public void setPerfil(String perfil) {
 		this.perfil = perfil;
 	}
