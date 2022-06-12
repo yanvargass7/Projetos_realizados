@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 		xmlns:h="http://java.sun.com/jsf/html"
 		xmlns:f="http://java.sun.com/jsf/core"
-		xmlns:ui="http://java.sun.com/jsf/facelets">
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 		
 <h:head>
 		<title>Cadastro</title>
@@ -27,13 +28,16 @@
 			
 			
 			<h:outputLabel value="Nome:"/>
-			<h:inputText value="#{pessoaBean.pessoa.nome}"/>
+			<h:inputText value="#{pessoaBean.pessoa.nome}" required="true" requiredMessage="Informe o nome" 
+			validatorMessage="Nome deve ter no mínimo 10 caracteres" pt:placeholder="Informe o nome do usuário">
+				<f:validateLength minimum="10" maximum="50"/>
+			</h:inputText>
 			
 			<h:outputLabel value="Sobrenome:"/>
-			<h:inputText value="#{pessoaBean.pessoa.sobrenome}"/>
+			<h:inputText value="#{pessoaBean.pessoa.sobrenome}" pt:placeholder="Informe o sobrenome"/>
 			
 			<h:outputLabel value="Idade:"/>
-			<h:inputText value="#{pessoaBean.pessoa.idade}"/>
+			<h:inputText value="#{pessoaBean.pessoa.idade}" pt:placeholder="Informe a idade"/>
 			
 			<h:outputLabel value="sexo"/>
 			<h:selectOneMenu id="campoSexo" value="#{pessoaBean.pessoa.sexo}" required="false">
@@ -41,6 +45,13 @@
 				<f:selectItem itemValue="MASCULINO" itemLabel="Sexo Masculino"/>
 				<f:selectItem itemValue="FEMININO" itemLabel="Sexo Feminino"/>
 			</h:selectOneMenu>
+			
+			<h:outputLabel value="Nascimento"/>
+			<h:inputText value="#{pessoaBean.pessoa.dataNascimento}" converterMessage="Data de nascimento errada">
+				<f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR" timeZone="GMT-03:00"/>
+			</h:inputText>
+			
+			
 			
 			<h:outputLabel value="Conhecimentos:"/>
 			<h:selectManyMenu id="campoFramework" style="height:150px" value="#{pessoaBean.pessoa.frameworks}">
@@ -51,14 +62,39 @@
 				<f:selectItem itemValue="PrimeFaces" />
 			</h:selectManyMenu>
 			
+			<h:outputLabel value="CEP:"/>
+			<h:inputText value="#{pessoaBean.pessoa.cep}" pt:placeholder="Informe o cep">
+			<f:ajax event="blur" execute="@this" listener="#{pessoaBean.pesquisaCep}" 
+			render="logradouro complemento bairro localidade uf ddd" />
+			</h:inputText>
+			
+			<h:outputLabel value="Logradouro:"/>
+			<h:inputText value="#{pessoaBean.pessoa.logradouro}" id="logradouro"/>
+			
+			<h:outputLabel value="Complemento:"/>
+			<h:inputText value="#{pessoaBean.pessoa.complemento}" id="complemento"/>
+			
+			<h:outputLabel value="Bairro"/>
+			<h:inputText value="#{pessoaBean.pessoa.bairro}" id="bairro"/>
+			
+			<h:outputLabel value="Localidade"/>
+			<h:inputText value="#{pessoaBean.pessoa.localidade}" id="localidade"/>
+			
+			<h:outputLabel value="Uf:"/>
+			<h:inputText value="#{pessoaBean.pessoa.uf}" id="uf"/>
+			
+			<h:outputLabel value="DDD:"/>
+			<h:inputText value="#{pessoaBean.pessoa.ddd}" id="ddd"/>
+			
+			
 			<h:outputLabel value="Ativo"/>
 			<h:selectBooleanCheckbox value="#{pessoaBean.pessoa.ativo}"/>
 			
 			<h:outputLabel value="Login:"/>
-			<h:inputText value="#{pessoaBean.pessoa.login}"/>
+			<h:inputText value="#{pessoaBean.pessoa.login}" pt:placeholder="Informe o login"/>
 			
 			<h:outputLabel value="Senha:"/>
-			<h:inputSecret value="#{pessoaBean.pessoa.senha}"/>
+			<h:inputSecret value="#{pessoaBean.pessoa.senha}" pt:placeholder="Informe a senha"/>
 			
 			<h:outputLabel value="Perfil"/>
 			<h:selectOneMenu id="perfil" value="#{pessoaBean.pessoa.perfil}" required="false">
@@ -76,17 +112,17 @@
 				<f:selectItem itemValue="SENIOR" itemLabel="Senior" />
 			</h:selectOneRadio>
 			
-			
-			
 			<h:outputLabel/>
 			<h:panelGroup >
 				<h:commandButton value="Salvar" action="#{pessoaBean.salvar}" image="resources/img/salvar.png" title="Salvar"  />
 				<h:commandButton value="Novo" action="#{pessoaBean.novo}" image="resources/img/new_add_user_16734.png" title="Novo" />
 				<h:commandButton value="Excluir" action="#{pessoaBean.remove}" image="resources/img/excluir.png" title="Remover" rendered="#{pessoaBean.permiteAcesso('ADMINISTRADOR')}"/>
-				<h:commandButton value="Limpar" type="reset" image="resources/img/limpar.png" title="Limpar"/>
+				<h:commandButton value="Limpar" action="#{pessoaBean.limpar}" image="resources/img/limpar.png" title="Limpar"/>
 			</h:panelGroup>
 	</h:panelGrid>
+	</h:form>
 	
+	<h:form>
 	 <h:dataTable value="#{pessoaBean.pessoas}" var="pessoa" border="3" cellpadding="6">
 	     
 	     	<f:facet name="header">
@@ -126,8 +162,8 @@
 	     	</h:column>
 	
 	 </h:dataTable>
-	
 	</h:form>
+	
 
 </h:body>
 
