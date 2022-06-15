@@ -20,6 +20,7 @@ public class Cidades implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String nome;
+	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
 	private Estados estados;
 	

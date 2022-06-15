@@ -8,8 +8,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @Entity
 public class Pessoa implements Serializable {
@@ -36,6 +38,12 @@ public class Pessoa implements Serializable {
 	private String ibge;
 	private String ddd;
 	
+	@ManyToOne
+	private Cidades cidades;
+	
+	@Transient  // não fica persistente - na memória
+	private Estados estados;
+	
 	private String[] frameworks;
 	private Boolean ativo;
 	@Temporal(TemporalType.DATE)
@@ -55,6 +63,22 @@ public class Pessoa implements Serializable {
 	public void setCep(String cep) {
 		this.cep = cep;
 	}
+	public Cidades getCidades() {
+		return cidades;
+	}
+
+	public void setCidades(Cidades cidades) {
+		this.cidades = cidades;
+	}
+
+	public Estados getEstados() {
+		return estados;
+	}
+
+	public void setEstados(Estados estados) {
+		this.estados = estados;
+	}
+
 	public String getLogradouro() {
 		return logradouro;
 	}
