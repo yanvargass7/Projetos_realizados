@@ -4,10 +4,14 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -37,17 +41,20 @@ public class Pessoa implements Serializable {
 	private String uf;
 	private String ibge;
 	private String ddd;
-	
 	@ManyToOne
 	private Cidades cidades;
-	
 	@Transient  // não fica persistente - na memória
 	private Estados estados;
-	
 	private String[] frameworks;
 	private Boolean ativo;
 	@Temporal(TemporalType.DATE)
 	private Date dataNascimento = new Date();
+	@Column(columnDefinition ="text")
+	private String fotoIconBase64;
+	private String extensao;
+	@Lob
+	@Basic(fetch = FetchType.LAZY)
+	private byte[] fotoIconBase64Original;
 
 	
 	
@@ -60,9 +67,34 @@ public class Pessoa implements Serializable {
 	//---------------------
 	
 	
+	
 	public void setCep(String cep) {
 		this.cep = cep;
 	}
+	public String getFotoIconBase64() {
+		return fotoIconBase64;
+	}
+
+	public void setFotoIconBase64(String fotoIconBase64) {
+		this.fotoIconBase64 = fotoIconBase64;
+	}
+
+	public String getExtensao() {
+		return extensao;
+	}
+
+	public void setExtensao(String extensao) {
+		this.extensao = extensao;
+	}
+
+	public byte[] getFotoIconBase64Original() {
+		return fotoIconBase64Original;
+	}
+
+	public void setFotoIconBase64Original(byte[] fotoIconBase64Original) {
+		this.fotoIconBase64Original = fotoIconBase64Original;
+	}
+
 	public Cidades getCidades() {
 		return cidades;
 	}

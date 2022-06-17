@@ -1,6 +1,9 @@
 package br.com.cursojsf;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -12,11 +15,13 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
 
 import com.google.gson.Gson;
 
@@ -38,8 +43,13 @@ public class PessoaBean {
 	private IDaoPessoa iDaoPessoa = new IDaoPessoaImpl();
 	private List<SelectItem> estados;
 	private List<SelectItem> cidades;
+	private Part arquivoFoto;
 	
 	public String salvar() {
+		
+		
+		
+		
 		pessoa = daoGeneric.merge(pessoa);
 		carregarPessoas();
 		mostrarMsg("Cadastrado com sucesso");
@@ -150,35 +160,75 @@ public class PessoaBean {
 	}
 	
 	public void carregaCidades(AjaxBehaviorEvent event) {
-		String codigoEstado = (String) (event.getComponent().getAttributes().get("submittedValue"));
 		
+	Estados estado = (Estados)((HtmlSelectOneMenu)event.getSource()).getValue();
 		
-		 if (codigoEstado!=null) { Estados estado =
-		 JPAUtil.getEntityManager().find(Estados.class, Long.parseLong(codigoEstado));
 		  
 		 if (estado != null) { 
 			 
-		System.out.println("testeeeee"+codigoEstado);
 		 
 		  List<Cidades> cidades = JPAUtil.getEntityManager()
 				  .createQuery("from Cidades where estados.id = "
-			      + codigoEstado).getResultList();
+			      + estado.getId()).getResultList();
 		  
 		  List<SelectItem> selectItemsCidade = new ArrayList<SelectItem>();
 		  
 		  for (Cidades cidade : cidades) { selectItemsCidade.add(new
-		  SelectItem(cidade.getId(),cidade.getNome())); }
+		  SelectItem(cidade,cidade.getNome())); }
 		  
 		  setCidades(selectItemsCidade);
 		 
 				
 			}
 		}
+	
+	public void editar() {
+		
+		if(pessoa.getCidades()!=null) {
+			Estados estado = pessoa.getCidades().getEstados();
+			pessoa.setEstados(estado);
+			
+			 List<Cidades> cidades = JPAUtil.getEntityManager()
+					  .createQuery("from Cidades where estados.id = "
+				      + estado.getId()).getResultList();
+			  
+			  List<SelectItem> selectItemsCidade = new ArrayList<SelectItem>();
+			  
+			  for (Cidades cidade : cidades) { selectItemsCidade.add(new
+			  SelectItem(cidade,cidade.getNome())); }
+			  
+			  setCidades(selectItemsCidade);
+		}
+		
 	}
 	
-	
+	private byte[] getByte (InputStream is) throws IOException {
+		int len;
+		int size = 1024;
+		byte [] buf = null;
+		if (is instanceof ByteArrayInputStream) {
+			size = is.available();
+			buf = new byte [size];
+			len = is.read(buf,0,size);
+			
+		}else {
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			buf = new byte[size];
+			while((len = is.read(buf,0,size)) != -1) {
+				bos.write(buf, 0, len);
+			}
+			buf = bos.toByteArray();
+		}
+		return buf;
+		
+	}
 	//------------------------------------
-	
+	public void setArquivoFoto(Part arquivoFoto) {
+		this.arquivoFoto = arquivoFoto;
+	}
+	public Part getArquivoFoto() {
+		return arquivoFoto;
+	}
 	
 	public Pessoa getPessoa() {
 		return pessoa;
@@ -207,13 +257,9 @@ public class PessoaBean {
 		this.pessoa = pessoa;
 	}
 
-
-
 	public DaoGeneric<Pessoa> getDaoGeneric() {
 		return daoGeneric;
 	}
-
-
 
 	public void setDaoGeneric(DaoGeneric<Pessoa> daoGeneric) {
 		this.daoGeneric = daoGeneric;
