@@ -10,17 +10,15 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
 import br.com.entidades.Cidades;
-import br.com.entidades.Estados;
 import br.com.jpautil.JPAUtil;
 
 @FacesConverter(forClass = Cidades.class, value = "cidadeConverter" )
 public class CidadesConverter implements Converter, Serializable {
-
+	
 	private static final long serialVersionUID = 1L;
 
 	@Override //retorna o objeto inteiro
 	public Object getAsObject(FacesContext context, UIComponent component, String codigoCidade) {
-		
 		EntityManager entityManager = JPAUtil.getEntityManager();
 		EntityTransaction entityTransaction = entityManager.getTransaction();
 		entityTransaction.begin();

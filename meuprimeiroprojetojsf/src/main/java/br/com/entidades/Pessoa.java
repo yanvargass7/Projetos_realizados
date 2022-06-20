@@ -16,6 +16,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 public class Pessoa implements Serializable {
@@ -25,8 +30,13 @@ public class Pessoa implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	@NotEmpty
+	@Size(min = 02, max = 15, message ="Nome deve ter entre 02 e 15 letras"  )
 	private String nome;
+	@NotEmpty(message = "Sobrenome deve ser informado")
+	@NotNull(message = "Sobrenome deve ser informado")
 	private String sobrenome;
+	@DecimalMin(value = "18", message = "Idade deve ser maior que 18")
 	private Integer idade;
 	private String sexo;
 	private String nivelprogramador;
@@ -39,6 +49,7 @@ public class Pessoa implements Serializable {
 	private String bairro;
 	private String localidade;
 	private String uf;
+	private String perfilUser;
 	private String ibge;
 	private String ddd;
 	@ManyToOne
@@ -71,6 +82,14 @@ public class Pessoa implements Serializable {
 	public void setCep(String cep) {
 		this.cep = cep;
 	}
+	public String getPerfilUser() {
+		return perfilUser;
+	}
+
+	public void setPerfilUser(String perfilUser) {
+		this.perfilUser = perfilUser;
+	}
+
 	public String getFotoIconBase64() {
 		return fotoIconBase64;
 	}

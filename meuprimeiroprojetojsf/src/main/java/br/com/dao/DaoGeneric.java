@@ -7,24 +7,20 @@ import javax.persistence.EntityTransaction;
 
 import br.com.jpautil.JPAUtil;
 
+
 public class DaoGeneric <E> {
 	
 	public void salvar( E entidade) {
-		
 		EntityManager entityManager = JPAUtil.getEntityManager();
-		
 		EntityTransaction entityTransaction = entityManager.getTransaction();
 		entityTransaction.begin();
 		entityManager.persist(entidade);
 		entityTransaction.commit();
 		entityManager.close();
-		
 	}
 	
 	public E merge( E entidade) {
-		
 		EntityManager entityManager = JPAUtil.getEntityManager();
-		
 		EntityTransaction entityTransaction = entityManager.getTransaction();
 		entityTransaction.begin();
 		E retorno = entityManager.merge(entidade);
@@ -35,19 +31,15 @@ public class DaoGeneric <E> {
 	}
 	
 	public void delete( E entidade) {
-		
 		EntityManager entityManager = JPAUtil.getEntityManager();
-		
 		EntityTransaction entityTransaction = entityManager.getTransaction();
 		entityTransaction.begin();
 		entityManager.remove(entidade);
 		entityTransaction.commit();
 		entityManager.close();
-		
 	}
 	
 	public void deletePorId( E entidade) {
-		
 		EntityManager entityManager = JPAUtil.getEntityManager();
 		EntityTransaction entityTransaction = entityManager.getTransaction();
 		entityTransaction.begin();
@@ -64,9 +56,7 @@ public class DaoGeneric <E> {
 		EntityManager entityManager = JPAUtil.getEntityManager();
 		EntityTransaction entityTransaction = entityManager.getTransaction();
 		entityTransaction.begin();
-		
 		List<E> retorno = entityManager.createQuery("from "+entidade.getName()).getResultList();
-		
 		entityTransaction.commit();
 		entityManager.close();
 		return retorno;
@@ -76,9 +66,9 @@ public class DaoGeneric <E> {
 		EntityManager entityManager = JPAUtil.getEntityManager();
 		EntityTransaction entityTransaction = entityManager.getTransaction();
 		entityTransaction.begin();
-		
 		E objeto = (E) entityManager.find(entidade,Long.parseLong(codigo));
 		entityTransaction.commit();
+		entityManager.close();
 		return objeto;
 	}
 	

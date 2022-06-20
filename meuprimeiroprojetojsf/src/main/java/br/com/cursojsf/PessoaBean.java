@@ -1,3 +1,4 @@
+//CLASSE PESSOA.BEAN
 package br.com.cursojsf;
 
 import java.awt.Graphics2D;
@@ -42,11 +43,12 @@ import br.com.repository.IDaoPessoaImpl;
 @ViewScoped
 @ManagedBean(name = "pessoaBean")
 public class PessoaBean {
-	
 	private Pessoa pessoa = new Pessoa();
 	private DaoGeneric<Pessoa> daoGeneric = new DaoGeneric<Pessoa>();
 	private List<Pessoa> pessoas = new ArrayList<Pessoa>();
+	
 	private IDaoPessoa iDaoPessoa = new IDaoPessoaImpl();
+	
 	private List<SelectItem> estados;
 	private List<SelectItem> cidades;
 	private Part arquivoFoto;
@@ -87,6 +89,10 @@ public class PessoaBean {
 		carregarPessoas();
 		mostrarMsg("Cadastrado com sucesso");
 		return "";
+	}
+	
+	public void registraLog() {
+		System.out.println("metodo registrado");
 	}
 	
 	private void mostrarMsg(String msg) {

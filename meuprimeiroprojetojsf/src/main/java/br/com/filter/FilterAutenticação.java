@@ -19,6 +19,7 @@ import br.com.jpautil.JPAUtil;
 @WebFilter(urlPatterns = {"/*"})
 public class FilterAutenticação implements Filter{
 
+	
 	@Override
 	public void destroy() {
 	}

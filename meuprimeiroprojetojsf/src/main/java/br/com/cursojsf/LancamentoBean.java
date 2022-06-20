@@ -16,7 +16,7 @@ import br.com.repository.IDaoLancamento;
 import br.com.repository.IDaoLancamentoImpl;
 
 @ViewScoped
-@ManagedBean(name="lancamentoBean")
+@ManagedBean(name ="lancamentoBean")
 public class LancamentoBean {
 
 	private Lancamento lancamento = new Lancamento();

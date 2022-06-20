@@ -6,25 +6,24 @@ import javax.persistence.Persistence;
 
 public class JPAUtil {
 	
-	private static EntityManagerFactory factory = null;
+	private static  EntityManagerFactory factory = null;
+	
 	
 	static {
-		
 		if (factory==null) {
 			
-		factory = Persistence.createEntityManagerFactory("meuprimeiroprojetojsf");
-		System.out.println("conectado");
-		
-		}
+			factory = Persistence.createEntityManagerFactory("meuprimeiroprojetojsf");
+			System.out.println("conectado");
+			
+			}
 	}
 	
-	public static EntityManager getEntityManager() {
-		
+	
+	public static  EntityManager getEntityManager() {
 		return factory.createEntityManager();
 	}
 	
-	public static Object getPrimaryKey(Object entity) {
-		
+	public static  Object getPrimaryKey(Object entity) {
 		return factory.getPersistenceUnitUtil().getIdentifier(entity);
 		
 	}

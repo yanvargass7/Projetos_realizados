@@ -14,12 +14,11 @@ import br.com.jpautil.JPAUtil;
 
 @FacesConverter(forClass = Estados.class, value ="estadoConverter")
 public class EstadoConverter implements Converter, Serializable {
-
+	
 	private static final long serialVersionUID = 1L;
 
 	@Override //retorna o objeto inteiro
 	public Object getAsObject(FacesContext context, UIComponent component, String codigoEstado) {
-		
 		EntityManager entityManager = JPAUtil.getEntityManager();
 		EntityTransaction entityTransaction = entityManager.getTransaction();
 		entityTransaction.begin();
