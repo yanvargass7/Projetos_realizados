@@ -39,6 +39,7 @@ import br.com.entidades.Pessoa;
 import br.com.jpautil.JPAUtil;
 import br.com.repository.IDaoPessoa;
 import br.com.repository.IDaoPessoaImpl;
+import net.bootsfaces.component.selectOneMenu.SelectOneMenu;
 
 @ViewScoped
 @ManagedBean(name = "pessoaBean")
@@ -53,41 +54,48 @@ public class PessoaBean {
 	private List<SelectItem> cidades;
 	private Part arquivoFoto;
 	
-	public String salvar() throws IOException {
-		//processa imagem
-		byte[] imagemByte = getByte(arquivoFoto.getInputStream());
-		pessoa.setFotoIconBase64Original(imagemByte);
+public String salvar() throws IOException{
 		
-		//transforma em bufferimage
-		BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(imagemByte));
-		
-		//pega o time da imagem
-		int type = bufferedImage.getType() == 0? BufferedImage.TYPE_INT_ARGB : bufferedImage.getType();
-		
-		int largura = 200;
-		int altura = 200;
-		
-		//cria a miniatura
-		BufferedImage resizedImage = new BufferedImage(largura, altura, type);
-		Graphics2D g = resizedImage.createGraphics();
-		g.drawImage(bufferedImage, 0, 0, largura, altura, null);
-		g.dispose();
-		
-		//escrever novamente a imagem em tamanho menor
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		String extensao = arquivoFoto.getContentType().split("\\/")[1];//image/png
-		ImageIO.write(resizedImage, extensao, baos);
-		
-		String miniImage = "data:"+ arquivoFoto.getContentType()+";base64,"+
-						DatatypeConverter.printBase64Binary(baos.toByteArray());
-		//processar imagem
-		pessoa.setFotoIconBase64(miniImage);
-		pessoa.setExtensao(extensao);
-		
+		if (arquivoFoto != null && arquivoFoto.getInputStream() != null) {
+		/*Processsar imagem*/
+			 byte[] imagemByte = getByte(arquivoFoto.getInputStream());
+			 
+			 /*transformar em bufferimage*/
+			 BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(imagemByte));
+			 
+			 if(bufferedImage != null) {
+			 
+		      pessoa.setFotoIconBase64Original(imagemByte); /*Salva imagem original*/
+			 /*Pega o tipo da imagem*/
+			 int type = bufferedImage.getType() == 0? BufferedImage.TYPE_INT_ARGB : bufferedImage.getType();
+			 
+			 int largura = 200;
+			 int altura = 200;
+			 
+			 /*Criar a miniatura*/
+			  BufferedImage resizedImage = new BufferedImage(altura, altura, type);
+			  Graphics2D g = resizedImage.createGraphics();
+			  g.drawImage(bufferedImage, 0, 0, largura, altura, null);
+			  g.dispose();
+			  
+			  /*Escrever novamente a imagem em tamanho menor*/
+			  ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			  String extensao = arquivoFoto.getContentType().split("\\/")[1]; /*image/png*/
+			  ImageIO.write(resizedImage, extensao, baos);
+			  
+			  String miniImagem = "data:" + arquivoFoto.getContentType() + ";base64," +
+			                       DatatypeConverter.printBase64Binary(baos.toByteArray());
+			 
+			/*Processsar imagem*/
+			 pessoa.setFotoIconBase64(miniImagem);
+			 pessoa.setExtensao(extensao);
+		 }
+		 
+		}
 		
 		pessoa = daoGeneric.merge(pessoa);
 		carregarPessoas();
-		mostrarMsg("Cadastrado com sucesso");
+		mostrarMsg("Cadastrado com sucesso!");
 		return "";
 	}
 	
@@ -135,9 +143,10 @@ public class PessoaBean {
 			FacesContext context = FacesContext.getCurrentInstance();
 			ExternalContext externalContext = context.getExternalContext();
 			externalContext.getSessionMap().put("usuarioLogado", pessoaUser);
-			
-			
+
 			return "primeirapagina.jsf";
+		}else {
+			FacesContext.getCurrentInstance().addMessage("msg", new FacesMessage("Usuário inválido!"));
 		}
 			
 		return "index.jsf";
@@ -279,9 +288,14 @@ public class PessoaBean {
 	
 	
 	//------------------------------------
+	
 	public void setArquivoFoto(Part arquivoFoto) {
 		this.arquivoFoto = arquivoFoto;
 	}
+	public void setPessoas(List<Pessoa> pessoas) {
+		this.pessoas = pessoas;
+	}
+
 	public Part getArquivoFoto() {
 		return arquivoFoto;
 	}

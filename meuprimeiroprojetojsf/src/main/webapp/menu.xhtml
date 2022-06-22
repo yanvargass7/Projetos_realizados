@@ -1,14 +1,26 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-		xmlns:h="http://java.sun.com/jsf/html">
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:b="http://bootsfaces.net/ui">
 	
+	<h:form>
+
+	<b:navBar brand="Menu" fluid="true">
+	 <b:navbarLinks>
+	 	 <b:navCommandLink action="primeirapagina" value="Administração" rendered="#{pessoaBean.permiteAcesso('ADMINISTRADOR')}"/>
+	   	 <b:navCommandLink action="lancamento" value="Lançamentos"/>
+	  
+	     <b:dropMenu value="Relatórios">
+	       <b:navCommandLink value="Rel. Notas" action="rellancamento"/>
+	       <b:navCommandLink value="Rel. Usuário" action="relusuario"/>
+	     </b:dropMenu>
+	     
+	     <b:navCommandLink value="Trocar o Usuário" action="#{pessoaBean.deslogar}" />
+	  </b:navbarLinks>
+	</b:navBar> 
 	
-	<h:form style="padding-bottom:25px">
-		<h:commandLink value="Administração" action="primeirapagina" style="margin-left:1cm;"/>
-		<h:commandLink value="Lançamentos" action="lancamento" style="margin-left:1cm;"/>
-		<h:commandLink value="Trocar Usuário" action="#{pessoaBean.deslogar}" style="margin-left:1cm;"/>
-	</h:form>
+    </h:form>
 	</html>
 
 	

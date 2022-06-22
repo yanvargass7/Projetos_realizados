@@ -15,7 +15,6 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
-
 	<servlet-mapping>
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.jsf</url-pattern>
@@ -25,6 +24,11 @@
 		<extension>jsp</extension>
 		<mime-type>application/jsp</mime-type>
 	</mime-mapping>
-
+	
+	<context-param>
+		<param-name>BootsFaces_USETHEME</param-name>
+		<param-value>default</param-value>
+	</context-param>
+	
 </web-app>
 

@@ -21,7 +21,7 @@ public class UsuarioPessoa {
 	
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)	
 	private Long id;
 	
 	private String nome;
