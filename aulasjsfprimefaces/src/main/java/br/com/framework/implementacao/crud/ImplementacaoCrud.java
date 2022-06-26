@@ -3,11 +3,9 @@ package br.com.framework.implementacao.crud;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Query;
-
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.impl.SessionFactoryObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -132,38 +130,49 @@ public class ImplementacaoCrud<T> implements InterfaceCrud<T> {
 
 	@Override
 	public void executaUpdateQueryDinamica(String s) throws Exception {
-		// TODO Auto-generated method stub
 		
+		validaSessionFactory();
+		sessionFactory.getCurrentSession().createQuery(s).executeUpdate();
+		executeFlushSession();
 	}
 
 	@Override
 	public void executaUpdateSQLDinamica(String s) throws Exception {
-		// TODO Auto-generated method stub
+		
+		validaSessionFactory();
+		sessionFactory.getCurrentSession().createSQLQuery(s).executeUpdate();
+		executeFlushSession();
 		
 	}
 
 	@Override
 	public void clearSession() throws Exception {
-		// TODO Auto-generated method stub
 		
+		sessionFactory.getCurrentSession().clear();
 	}
 
 	@Override
 	public void evict(Object objs) throws Exception {
-		// TODO Auto-generated method stub
+		
+		validaSessionFactory();
+		sessionFactory.getCurrentSession().evict(objs);
 		
 	}
 
+	//get set
+	
 	@Override
 	public Session getSession() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		
+		validaSessionFactory();
+		return sessionFactory.getCurrentSession();
 	}
 
 	@Override
 	public List<?> getListSQLDinamica(String sql) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		validaSessionFactory();
+		List<?> lista = sessionFactory.getCurrentSession().createSQLQuery(sql).list();
+		return lista;
 	}
 
 	@Override
@@ -183,20 +192,29 @@ public class ImplementacaoCrud<T> implements InterfaceCrud<T> {
 
 	@Override
 	public Long totalRegistro(String table) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		
+		StringBuilder sql = new StringBuilder();
+		sql.append(" select count(1) from ").append(table);	
+		return jdbcTemplate.queryForLong(sql.toString());	
 	}
 
 	@Override
 	public Query obterQuery(String query) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		validaSessionFactory();
+		Query queryReturn = sessionFactory.getCurrentSession().createQuery(query.toString());
+		return queryReturn;
 	}
 
+	
 	@Override
 	public List<T> findListByQueryDinamica(String query, int iniciaNoRegistro, int maximoResultaado) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		validaSessionFactory();
+		List<T> lista = new ArrayList<T>();
+		lista = sessionFactory.getCurrentSession().createQuery(query).setFirstResult(iniciaNoRegistro).
+				setMaxResults(maximoResultaado).list();
+		
+		return lista;
 	}
 	
 	private void validaSessionFactory() {
@@ -227,5 +245,13 @@ public class ImplementacaoCrud<T> implements InterfaceCrud<T> {
 		sessionFactory.getCurrentSession().flush();
 		
 	}
+	
+	public List<Object[]> getListSQLDinamicaArray(String sql) throws Exception{
+		
+		validaSessionFactory();
+		List<Object[]> lista = (List<Object[]>) sessionFactory.getCurrentSession().createQuery(sql).list();
+		return lista;
+	}
+	
 
 }
