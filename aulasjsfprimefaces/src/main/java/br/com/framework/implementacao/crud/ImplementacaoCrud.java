@@ -123,8 +123,11 @@ public class ImplementacaoCrud<T> implements InterfaceCrud<T> {
 
 	@Override
 	public List<T> findListByQueryDinamica(String s) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		
+		validaSessionFactory();
+		List<T> lista = new ArrayList<T>();
+		lista = sessionFactory.getCurrentSession().createQuery(s).list();
+		return lista;
 	}
 
 	@Override
