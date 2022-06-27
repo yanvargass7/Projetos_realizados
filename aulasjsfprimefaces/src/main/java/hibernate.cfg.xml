@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+		
+		<hibernate-configuration>
+			<session-factory name="sessionFactory">
+				<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+				<property name="hibernate.connection.datasource">java:/comp/env/jdbc/datasource</property>
+				<property name="hibernate.default_schema">public</property>
+				<property name="hibernate.current_session_content_class">thread</property>
+				<property name="hibernate.transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</property>
+				<property name="hibernate.jdbc.factory_class">org.hibernate.jdbc.NonBatchingBatcherFactory</property>
+				<property name="hibernate,jdbc.batch_size">100</property>
+				<property name="hibernate.cache.use_second_cache">true</property>
+				<property name="hibernate.transaction.auto_close_session">true</property>
+				<property name="hibernate.hbm2dll.auto">false</property>
+				<property name="hibernate.show_sql">false</property>
+				<property name="hibernate.format_sql">true</property>
+				<property name="hibernate.generate_statistics">true</property>
+				<property name="hibernate.use_sql_comments">true</property>
+				<property name="hibernate.connection.autocommit">false</property>
+				<property name="hibernate.connection.pool_size">50</property>
+				
+				<mapping class=""/>
+				
+				
+				
+				
+			</session-factory>
+		</hibernate-configuration>
