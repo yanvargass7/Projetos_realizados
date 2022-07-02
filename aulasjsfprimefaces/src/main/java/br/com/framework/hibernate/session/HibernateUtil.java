@@ -15,7 +15,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.engine.SessionFactoryImplementor;
 
 import br.com.framework.implementacao.crud.VariavelConexaoUtil;
-
+//test
 /**
  * Responsavel por estabelecer conexao com hibernate
  * @author Yan Vargas
