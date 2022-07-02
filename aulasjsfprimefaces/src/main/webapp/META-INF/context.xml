@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Context reloadable="true">
+
+	<Resource 
+	name="jdbc/datasource"
+	auth="Container"
+	type="javax.sql.DataSource"
+	defaultAutoCommit="false"
+	maxActive="50"
+	maxIdle="10"
+	maxWait="10"
+	driverClassName="org.postgresql.Driver"
+	validationQuery="SELECT 'OK'"
+	testeWhileIdle="true"
+	testeOnBorrow="true"
+	numTestePerEvictionRun="5"
+	timeBetweenEvibtionRunsMillis="5000"
+	minEvictableIdleTimeMillis="60000"
+	antiJARLocking="false"
+	antiResourcesLocking="false"
+	username="caixaki"
+	password="admin"
+	url="jdbc:postgresql://localhost:5432/ebook_jee?autoReconect=true"/>
+
+</Context>
