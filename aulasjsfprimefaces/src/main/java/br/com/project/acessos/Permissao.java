@@ -18,7 +18,7 @@ public enum Permissao {
 	BAIRRO_NOVO("BAIRRO_NOVO","Bairro - novo"),
 	BAIRRO_EDITAR("BAIRRO_EDITAR","Bairro - Editar"),
 	BAIRRO_EXCLUIR("BAIRRO_EXCLUIR", "Bairro - Excluir");
-	
+	//teste
 	private String valor="";
 	private String descricao="";
 	
