@@ -9,7 +9,7 @@ import br.com.jpautil.JPAUtil;
 
 
 public class DaoGeneric <E> {
-	//crud
+	
 	public void salvar( E entidade) {
 		EntityManager entityManager = JPAUtil.getEntityManager();
 		EntityTransaction entityTransaction = entityManager.getTransaction();
